@@ -1,0 +1,230 @@
+{% load static %}
+ 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ resume.full_name }} - Resume</title>
+    <link rel="stylesheet" href="{% static 'builder/styles.css' %}">
+</head>
+<body>
+    
+    <div class="resume-container">
+        <!-- Header Section -->
+        <div class="header" style="background-color:#4790d8;">
+            <h1>{{ fullName }}</h1>
+            <div class="contact-info">
+                {% if resume.email %}<p>Email: {{ resume.email }} awdw</p>{% endif %}
+                {% if resume.phone %}<p>Phone: {{ resume.phone }}</p>{% endif %}
+                {% if resume.location %}<p>Location: {{ resume.location }}</p>{% endif %}
+            </div>
+        </div>
+ 
+        <!-- Professional Summary -->
+        {% if summary %}
+        <div class="section">
+            <h2>Professional Summary</h2>
+            <p>{{ resume.summary }}</p>
+        </div>
+        {% endif %}
+ 
+        <!-- Skills -->
+        {% if resume.skills %}
+        <div class="section">
+            <h2>Skills</h2>
+            <div class="skills-list">
+                <span class="skill-item">{{ resume.skills }}</span>
+            </div>
+        </div>
+        {% endif %}
+ 
+        <!-- Work History -->
+        {% if resume.experiences %}
+        <div class="section">
+            <h2>Work Experience</h2>
+            {% for experience in resume.experiences.all %}
+            <div class="work-entry">
+                <h3>{{ experience.position }}</h3>
+                <p class="company-info">{{ experience.company }} - {{ experience.location }}</p>
+                <p class="date-range">
+                    {{ experience.start_date }}{% if experience.end_date %} - {{ experience.end_date }}{% else %} - Present{% endif %}
+                </p>
+                {% if experience.responsibilities %}
+                <div class="responsibilities">
+                    {{ experience.responsibilities|linebreaks }}
+                </div>
+                {% endif %}
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+ 
+        <!-- Education -->
+        {% if resume.educations %}
+        <div class="section">
+            <h2>Education</h2>
+            {% for education in resume.educations.all %}
+            <div class="education-entry">
+                <h3>{{ education.degree }}{% if education.field %} in {{ education.field }}{% endif %}</h3>
+                <p class="school-info">{{ education.school }}</p>
+                <p class="date-range">
+                    {{ education.start_date }}{% if education.end_date %} - {{ education.end_date }}{% else %} - Present{% endif %}
+                </p>
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+ 
+        <!-- Languages -->
+        {% if languages %}
+        <div class="section">
+            <h2>Languages</h2>
+            <p>{{ languages }}</p>
+        </div>
+        {% endif %}
+ 
+        {% if projects %}
+        <div class="section">
+            <h2>Projects</h2>
+            <p>{{ projects }}</p>
+        </div>
+        {% endif %}
+ 
+        {% if awards %}
+        <div class="section">
+            <h2>Awards</h2>
+            <p>{{ awards }}</p>
+        </div>
+        {% endif %}
+ 
+        {% if certifications %}
+        <div class="section">
+            <h2>Certifications</h2>
+            <p>{{ certifications }}</p>
+        </div>
+        {% endif %}
+ 
+        {% if organizations %}
+        <div class="section">
+            <h2>Organizations</h2>
+            <p>{{ organizations }}</p>
+        </div>
+        {% endif %}
+ 
+        {% if interests %}
+        <div class="section">
+            <h2>Interests</h2>
+            <p>{{ interests }}</p>
+        </div>
+        {% endif %}
+ 
+        {% if references %}
+        <div class="section">
+            <h2>References</h2>
+            <p>{{ references }}</p>
+        </div>
+        {% endif %}
+ 
+        {% if hobbies %}
+        <div class="section">
+            <h2>Hobbies</h2>
+            <p>{{ hobbies }}</p>
+        </div>
+        {% endif %}
+ 
+        {% if additional_info %}
+        <div class="section">
+            <h2>Additional Information</h2>
+            <p>{{ additional_info }}</p>
+        </div>
+        {% endif %}
+ 
+        {% if profile_link %}
+        <div class="section">
+            <h2>Profile Link</h2>
+            <p>{{ profile_link }}</p>
+        </div>
+        {% endif %}
+ 
+        {% if strengths %}
+        <div class="section">
+            <h2>Strengths</h2>
+            <p>{{ strengths }}</p>
+        </div>
+        {% endif %}
+ 
+        {% if achievements %}
+        <div class="section">
+            <h2>Achievements</h2>
+            <p>{{ achievements }}</p>
+        </div>
+        {% endif %}
+ 
+        {% if goals %}
+        <div class="section">
+            <h2>Goals</h2>
+            <p>{{ goals }}</p>
+        </div>
+        {% endif %}
+ 
+        {% if graph_data %}
+        <div class="section">
+            <h2>Graph Data</h2>
+            <p>{{ graph_data }}</p>
+        </div>
+        {% endif %}
+ 
+        {% if publications %}
+        <div class="section">
+            <h2>Publications</h2>
+            <p>{{ publications }}</p>
+        </div>
+        {% endif %}
+ 
+        {% if social_media %}
+        <div class="section">
+            <h2>Social Media</h2>
+            <p>{{ social_media }}</p>
+        </div>
+        {% endif %}
+ 
+        {% if strengths %}
+        <div class="section">
+            <h2>Strengths</h2>
+            <p>{{ strengths }}</p>
+        </div>
+        {% endif %}
+ 
+        {% if text_data %}
+        <div class="section">
+            <h2>Text Data</h2>
+            <p>{{ text_data }}</p>
+        </div>
+        {% endif %}
+ 
+        {% if image_data %}
+        <div class="section">
+            <h2>Image Data</h2>
+            <p>{{ image_data }}</p>
+        </div>
+        {% endif %}
+ 
+        {% if volunteer_experience %}
+        <div class="section">
+            <h2>Volunteer Experience</h2>
+            <p>{{ volunteer_experience }}</p>
+        </div>
+        {% endif %}
+ 
+ 
+    </div>
+ 
+    <!-- Print Button -->
+    <div class="print-btn" style="text-align: center; margin: 20px;">
+        <button onclick="window.print()" style="padding: 10px 20px; cursor: pointer;">
+            Print Resume
+        </button>
+    </div>
+</body>
+</html>

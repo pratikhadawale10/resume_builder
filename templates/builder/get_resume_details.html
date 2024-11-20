@@ -1,0 +1,189 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+ 
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resume Builder</title>
+    <link rel="stylesheet" href="{% static '/builder/styles.css' %}">
+</head>
+ 
+<body>
+    <h1>Build Your Resume</h1>
+ 
+    <!-- Form for Inputting Data -->
+    {% comment %} <form action="{% url 'generate_resume' %}" method="POST"> {% endcomment %}
+    <form method="POST">
+        {% csrf_token %}
+ 
+        <!-- Contact Information -->
+        <h2>Contact Information</h2>
+        <label for="fullName">Full Name:</label>
+        <input type="text" id="fullName" name="fullName" value="John Doe" required>
+ 
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" value="john@john.com" required>
+ 
+        <label for="phone">Phone:</label>
+        <input type="tel" id="phone" name="phone" value="9967677677" >
+ 
+        <label for="location">Location:</label>
+        <input type="text" id="location" name="location" value="Mumbai, India" >
+ 
+        <br><br>
+ 
+        <!-- Professional Summary -->
+        <h2>Professional Summary</h2>
+        <textarea name="summary" rows="4" 
+            placeholder="Write a brief summary about your professional background...">Lorem Ipsum Summary</textarea>
+ 
+        <br><br>
+ 
+        <!-- Skills -->
+        <h2>Skills</h2>
+        <textarea name="skills" rows="3" placeholder="List your skills, separated by commas...">Some Skills</textarea>
+ 
+        <br><br>
+ 
+        <!-- Work Experience -->
+        <h2>Work Experience</h2>
+        <div id="work-experience">
+            <div class="work-entry">
+                <label for="position">Position:</label>
+                <input type="text" id="position" name="experience[0][position]" value="Software Engineer">
+ 
+                <label for="company">Company:</label>
+                <input type="text" id="company" name="experience[0][company]">
+ 
+                <label for="exp-location">Location:</label>
+                <input type="text" id="exp-location" name="experience[0][location]">
+ 
+                <label for="start_date">Start Date:</label>
+                <input type="date" id="start_date" name="experience[0][start_date]">
+ 
+                <label for="end_date">End Date:</label>
+                <input type="date" id="end_date" name="experience[0][end_date]">
+ 
+                <label for="responsibilities">Responsibilities:</label>
+                <textarea id="responsibilities" name="experience[0][responsibilities]" rows="4"></textarea>
+            </div>
+        </div>
+        <button type="button" onclick="addWorkExperience()">Add More Experience</button>
+ 
+        <br><br>
+ 
+        <!-- Education -->
+        <h2>Education</h2>
+        <div id="education-section">
+            <div class="education-entry">
+                <label for="degree">Degree:</label>
+                <input type="text" id="degree" name="education[0][degree]">
+ 
+                <label for="field">Field of Study:</label>
+                <input type="text" id="field" name="education[0][field]">
+ 
+                <label for="school">School:</label>
+                <input type="text" id="school" name="education[0][school]">
+ 
+                <label for="start_date">Start Date:</label>
+                <input type="date" id="start_date" name="education[0][start_date]">
+ 
+                <label for="end_date">End Date:</label>
+                <input type="date" id="end_date" name="education[0][end_date]">
+            </div>
+        </div>
+        <button type="button" onclick="addEducation()">Add More Education</button>
+ 
+        <br><br>
+ 
+        <!-- Languages -->
+        <h2>Languages</h2>
+        <textarea name="languages" rows="2" placeholder="List languages you speak..."></textarea>
+ 
+        <br><br>
+ 
+        <!-- Custom Section Option -->
+        <h2>Create Your Own Section</h2>
+        <label>
+            <input type="checkbox" id="custom-section-checkbox" onclick="toggleCustomSection()">
+            Add Custom Section
+        </label>
+ 
+        <div id="custom-section" style="display:none;">
+            <label for="custom-section-title">Section Title:</label>
+            <input type="text" id="custom-section-title" name="custom_section_title"
+                placeholder="e.g., My Custom Section">
+ 
+            <label for="custom-section-content">Content:</label>
+            <textarea id="custom-section-content" name="custom_section_content" rows="4"
+                placeholder="Enter your content here"></textarea>
+        </div>
+ 
+        <br><br>
+ 
+        <!-- Submit Button -->
+        <button type="submit">Generate Resume</button>
+    </form>
+ 
+    <!-- JavaScript for Adding Dynamic Sections -->
+    <script>
+        function toggleCustomSection() {
+            const customSection = document.getElementById("custom-section");
+            customSection.style.display = customSection.style.display === "none" ? "block" : "none";
+        }
+ 
+        let workIndex = 1;
+        function addWorkExperience() {
+            const container = document.getElementById("work-experience");
+            const newEntry = `
+                <div class="work-entry">
+                    <label for="position_${workIndex}">Position:</label>
+                    <input type="text" id="position_${workIndex}" name="experience[${workIndex}][position]">
+ 
+                    <label for="company_${workIndex}">Company:</label>
+                    <input type="text" id="company_${workIndex}" name="experience[${workIndex}][company]">
+ 
+                    <label for="exp-location_${workIndex}">Location:</label>
+                    <input type="text" id="exp-location_${workIndex}" name="experience[${workIndex}][location]">
+ 
+                    <label for="start_date_${workIndex}">Start Date:</label>
+                    <input type="date" id="start_date_${workIndex}" name="experience[${workIndex}][start_date]">
+ 
+                    <label for="end_date_${workIndex}">End Date:</label>
+                    <input type="date" id="end_date_${workIndex}" name="experience[${workIndex}][end_date]">
+ 
+                    <label for="responsibilities_${workIndex}">Responsibilities:</label>
+                    <textarea id="responsibilities_${workIndex}" name="experience[${workIndex}][responsibilities]" rows="4"></textarea>
+                </div>`;
+            container.insertAdjacentHTML('beforeend', newEntry);
+            workIndex++;
+        }
+ 
+        let eduIndex = 1;
+        function addEducation() {
+            const container = document.getElementById("education-section");
+            const newEntry = `
+                <div class="education-entry">
+                    <label for="degree_${eduIndex}">Degree:</label>
+                    <input type="text" id="degree_${eduIndex}" name="education[${eduIndex}][degree]">
+ 
+                    <label for="field_${eduIndex}">Field of Study:</label>
+                    <input type="text" id="field_${eduIndex}" name="education[${eduIndex}][field]">
+ 
+                    <label for="school_${eduIndex}">School:</label>
+                    <input type="text" id="school_${eduIndex}" name="education[${eduIndex}][school]">
+ 
+                    <label for="start_date_${eduIndex}">Start Date:</label>
+                    <input type="date" id="start_date_${eduIndex}" name="education[${eduIndex}][start_date]">
+ 
+                    <label for="end_date_${eduIndex}">End Date:</label>
+                    <input type="date" id="end_date_${eduIndex}" name="education[${eduIndex}][end_date]">
+                </div>`;
+            container.insertAdjacentHTML('beforeend', newEntry);
+            eduIndex++;
+        }
+    </script>
+</body>
+ 
+</html>
